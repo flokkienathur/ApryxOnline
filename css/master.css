@@ -1,0 +1,35 @@
+* {
+  font-family: Tahoma, sans-serif;
+}
+
+#gamecontent {
+  width : 100%;
+  height: auto;
+  margin: 0 auto;
+  background:white;
+
+  image-rendering: optimizeSpeed;             /* Older versions of FF          */
+  image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+  image-rendering: -webkit-optimize-contrast; /* Safari                        */
+  image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+  image-rendering: pixelated;                 /* Awesome future-browsers       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+}
+
+.gameresources{
+  display:none;
+}
+
+body{
+    background-color: black;
+}
+
+.container {
+  width: 85%;
+  margin: 0 auto;
+}
+
+.footer {
+  text-align: center;
+  color: gray;
+}
