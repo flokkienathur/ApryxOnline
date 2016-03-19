@@ -10,7 +10,7 @@ window.onload = function(){
   Engine.network = new Network();
 
   Engine.game.level = new Level();
-  Engine.game.level.addGameObject(new GameObject(2,2,16,16));
+  Engine.game.level.addGameObject(new GameObjectPlayer());
 
   Engine.start();
 }

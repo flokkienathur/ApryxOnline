@@ -4,7 +4,7 @@ var wss = new WebSocketServer({port:8080});
 
 var currentID = 0;
 
-var tickrate = 20; //20 ticks per second
+var tickrate = 30; //20 ticks per second
 
 //list of players
 var players = new Array();
@@ -33,7 +33,7 @@ function broadcast(message, exclude){
 function update(){
   players.forEach(function(player){
     sendUpdate(player);
-  })
+  });
 }
 
 function sendUpdate(player){
@@ -88,6 +88,16 @@ wss.on('connection', function(ws){
     if(object.type == 'login'){
       player.username = object.username;
       //TODO send him all players that are currently already there
+      players.forEach(function(player){
+        var message = {
+          type:"create",
+          name:player.name,
+          id:player.id,
+          x:player.x,
+          y:player.y
+        };
+        ws.send(JSON.stringify(message));
+      });
 
       players.push(player);
       added = true;
@@ -95,10 +105,9 @@ wss.on('connection', function(ws){
       //send the connect message
       sendCreate(player);
     }
-    if(object.type == 'move'){
+    if(object.type == 'update'){
       player.x = object.x;
       player.y = object.y;
-
       //do not send update message, the update function will send that
     }
   });

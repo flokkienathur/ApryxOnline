@@ -30,22 +30,12 @@ var GameObject = function(x, y, width, height){
   this.height = height;
   this.depth = 0;
 
-  this.networkID = 0;
+  this.changed = false;
+  this.networkID = -1;
 }
 
 GameObject.prototype.update = function(){
-  if(Input.keys[Input.KEY_W]){
-    this.y -= 1;
-  }
-  if(Input.keys[Input.KEY_S]){
-    this.y += 1;
-  }
-  if(Input.keys[Input.KEY_A]){
-    this.x -= 1;
-  }
-  if(Input.keys[Input.KEY_D]){
-    this.x += 1;
-  }
+  //Do nothing right now
 }
 
 GameObject.prototype.draw = function(graphics){
@@ -59,6 +49,15 @@ Level class for storing game objects
 */
 var Level = function(){
   this.gameObjects = new Array();
+
+  var level = this;
+
+  this.gameObjects.remove = function(gameObject){
+    var index = level.gameObjects.indexOf(gameObject);
+    if(index >= 0){
+      level.gameObjects.splice(index, 1);
+    }
+  }
 }
 
 Level.prototype.addGameObject = function(object){
@@ -67,6 +66,15 @@ Level.prototype.addGameObject = function(object){
 
 Level.prototype.removeGameObject = function(object){
   this.gameObjects.remove(object);
+}
+
+Level.prototype.getGameObjectByNetworkID = function(id){
+  for(var i = 0; i < this.gameObjects.length; i++){
+    if(this.gameObjects[i].networkID == id){
+      return this.gameObjects[i];
+    }
+  }
+  return null;
 }
 
 //Draws the level
