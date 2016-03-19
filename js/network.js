@@ -12,11 +12,27 @@ var Network = function(){
   }
 
   this.socket.onmessage = function(message){
-    console.log(message.data);
+    var m = JSON.parse(message.data);
+
+    //create object
+    if(m.type == 'create'){
+
+    }
+
+    //destroy object
+    else if(m.type == 'destroy'){
+
+    }
+
+    //update object
+    else if(m.type == 'update'){
+
+    }
   }
 }
 
 Network.prototype.login = function (username, password) {
-  var message = {"username":username,"password":password};
+  //login message
+  var message = {"type":"login", "username":username,"password":password};
   this.socket.send(JSON.stringify(message));
 };

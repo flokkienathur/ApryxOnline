@@ -34,8 +34,18 @@ var GameObject = function(x, y, width, height){
 }
 
 GameObject.prototype.update = function(){
-  //do nothing
-  this.x += 1;
+  if(Input.keys[Input.KEY_W]){
+    this.y -= 1;
+  }
+  if(Input.keys[Input.KEY_S]){
+    this.y += 1;
+  }
+  if(Input.keys[Input.KEY_A]){
+    this.x -= 1;
+  }
+  if(Input.keys[Input.KEY_D]){
+    this.x += 1;
+  }
 }
 
 GameObject.prototype.draw = function(graphics){
