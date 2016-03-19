@@ -4,7 +4,9 @@ Apryx Online is a massive multiplayer online role playing game, that still is in
 
 ## Gameplay
 
-Some talk about the gameplay in apryx online
+Some talk about the gameplay in apryx online.
+
+Currently its nothing more than just blocks.
 
 ## Installing
 
