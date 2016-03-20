@@ -4,7 +4,7 @@ var wss = new WebSocketServer({port:8080});
 
 var currentID = 0;
 
-var tickrate = 30; //20 ticks per second
+var tickrate = 15; //20 ticks per second
 
 //list of players
 var players = new Array();

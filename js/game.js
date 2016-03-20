@@ -58,6 +58,11 @@ var Level = function(){
       level.gameObjects.splice(index, 1);
     }
   }
+
+  this.viewX = 0;
+  this.viewY = 0;
+
+  this.tileset = new Sprite("res_img_tileset");
 }
 
 Level.prototype.addGameObject = function(object){
@@ -79,6 +84,12 @@ Level.prototype.getGameObjectByNetworkID = function(id){
 
 //Draws the level
 Level.prototype.draw = function(){
+  for(var x = 0; x < 10; x++){
+    for(var y = 0; y < 10; y++){
+      Engine.graphics.drawSprite(this.tileset, x<<5, y<<5);
+    }
+  }
+
   for(var i = 0; i < this.gameObjects.length; i++){
     this.gameObjects[i].draw(Engine.graphics);
   }

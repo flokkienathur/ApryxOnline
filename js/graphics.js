@@ -2,6 +2,8 @@ var Graphics = function(canvas){
   this.canvas = canvas;
   this.context = canvas.getContext('2d');
   this.context.imageSmoothingEnabled = false;
+  this.width = this.canvas.width;
+  this.height = this.canvas.height;
 }
 
 Graphics.RED =    "#FF0000";
@@ -54,8 +56,35 @@ Graphics.prototype.drawSprite = function(sprite,x,y, width, height){
   this.context.drawImage(sprite.raw,x,y,width,height);
 }
 
+/**
+Sprite class for sprites and stuffs
+*/
 var Sprite = function(resource){
   this.raw = document.getElementById(resource);
   this.width = this.raw.width;
   this.height = this.raw.height;
+}
+
+/**
+Animation class for animation
+*/
+var Animation = function(){
+  this.currentFrame = 0;
+  this.sprites = new Array();
+}
+
+Animation.prototype.addSprite = function(sprite){
+  this.sprites.push(sprite);
+  return this;
+}
+
+Animation.prototype.update = function(speed){
+  this.currentFrame += speed;
+  if(this.currentFrame >= this.sprites.length){
+    this.currentFrame = 0;
+  }
+}
+
+Animation.prototype.getCurrentSprite = function(){
+  return this.sprites[Math.floor(this.currentFrame)];
 }

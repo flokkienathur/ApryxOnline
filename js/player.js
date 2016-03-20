@@ -3,7 +3,19 @@ var GameObjectPlayer = function(){
   //Call super class
   GameObject.call(this, 0, 0, 32, 32);
 
-  this.sprite = new Sprite("res_img_player");
+  this.currentAnimation = 0;
+  this.currentSprite = 0;
+  this.animations = [
+    //Idle
+    new Animation()
+    .addSprite(new Sprite("res_img_player")),
+
+    //Walk
+    new Animation()
+      .addSprite(new Sprite("res_img_playerstep1"))
+      .addSprite(new Sprite("res_img_playerstep2"))
+
+  ];
   this.name = "default_player";
 
   this.xPrevious = 0;
@@ -11,6 +23,10 @@ var GameObjectPlayer = function(){
   this.xDir = 0;
   this.yDir = 0;
 }
+
+GameObjectPlayer.ANIMATION_IDLE = 0;
+GameObjectPlayer.ANIMATION_WALK = 1;
+
 
 //Set the prototype to a copy of game object
 GameObjectPlayer.prototype = Object.create(GameObject.prototype);
@@ -60,7 +76,16 @@ GameObjectPlayer.prototype.update = function(){
     this.changed = false;
   }
 
+  if(this.xDir != 0 || this.yDir != 0){
+    this.currentAnimation = GameObjectPlayer.ANIMATION_WALK;
+  }else{
+    this.currentAnimation = GameObjectPlayer.ANIMATION_IDLE;
+  }
+
+  this.animations[this.currentAnimation].update(0.1);
+
   this.depth = this.y + 32;
+  
   this.x += this.xDir;
   this.y += this.yDir;
 
@@ -73,5 +98,5 @@ GameObjectPlayer.prototype.update = function(){
 GameObject.prototype.draw = function(graphics){
   //draw the game object
   graphics.setColor(Graphics.WHITE);
-  graphics.drawSprite(this.sprite, this.x, this.y);
+  graphics.drawSprite(this.animations[this.currentAnimation].getCurrentSprite(), this.x, this.y);
 }
