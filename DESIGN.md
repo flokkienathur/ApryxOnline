@@ -15,12 +15,12 @@ Fire is mostly burst damage. Fire is strong against:
 - Light
 
 ### Water
-Water is about shielding damage. Water is strong against:
+Water is about poison and damage over time. Its about debuffing opponents. Water is strong against:
 - Fire
 - Earth?
 
 ### Earth
-Earth is strong against:
+Earth is about shielding damage. Earth is strong against:
 - Shadow
 - Light
 
@@ -37,9 +37,16 @@ Light is about healing and helping alies. Light is strong against:
 
 ## Classes
 
-There are 5 classes in Apryx Online.
-- Fighter
-- Tank
-- Assasin
+There are 3 classes in Apryx Online.
+- Knight
+- Mage
 - Ranger
-- Wizard
+
+### Knight
+The knight is a melee fighter who wears heavy armor. The armor is made defend against heavy physical attacks and to deflect arrows from __Rangers__.
+
+### Mage
+The mage uses magic to penitrate the oponents defences and deal tonnes of damage. The mage has cloth armor, to power its magic. Because he needs to channel his magic, the mage usually isn't very mobile. Which makes him strong against melee targets, like the __Knight__.
+
+### Ranger
+The ranger takes advantage of mobility and range to take down his oponents. He rapidly fires many arrows and dodges his foos. Strong against __Mage__.
