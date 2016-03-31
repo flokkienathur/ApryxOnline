@@ -30,21 +30,21 @@ var Engine = {
   */
   start:function(){
 
-    if(Engine.game == null){
+    if(Engine.game === null){
         throw "Game is null";
     }
-    if(Engine.graphics == null){
+    if(Engine.graphics === null){
       throw "Graphics is null";
     }
 
     time = Date.now();
     previousTime = time;
 
-    if(requestAnimationFrame != undefined && !Engine.fallback){
-      function callback(){
+    if(requestAnimationFrame !== undefined && !Engine.fallback){
+      var callback = function(){
         Engine.update();
         requestAnimationFrame(callback);
-      }
+      };
       callback();
     }else{
       setInterval(function(){
@@ -63,10 +63,12 @@ var Engine = {
     Engine.elapsedSecond += d;
 
     //Update every 16.666667
+    //This might misalign with everything though..
     while(Engine.elapsed > 16.66666667){
       Engine.updates++;
       Engine.game.update();
       Engine.elapsed -= 16.66666667;
+      Input.flush();
     }
 
     //update fps every second
@@ -77,11 +79,14 @@ var Engine = {
       Engine.ups = Engine.updates;
       Engine.updates = 0;
 
-      console.log(Engine.fps + ", " + Engine.ups);
+      //Don't print fps
+      //console.log(Engine.fps + ", " + Engine.ups);
     }
 
     Engine.frames++;
     Engine.game.draw();
+
+    //flush the current input stuff
   }
 
-}
+};

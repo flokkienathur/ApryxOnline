@@ -5,7 +5,9 @@ var GameObjectPlayer = function(){
 
   this.currentAnimation = 0;
   this.currentSprite = 0;
+
   this.animations = [
+
     //Idle
     new Animation()
     .addSprite(new Sprite("res_img_player")),
@@ -14,7 +16,6 @@ var GameObjectPlayer = function(){
     new Animation()
       .addSprite(new Sprite("res_img_playerstep1"))
       .addSprite(new Sprite("res_img_playerstep2"))
-
   ];
   this.name = "default_player";
 
@@ -22,11 +23,10 @@ var GameObjectPlayer = function(){
   this.yPrevious = 0;
   this.xDir = 0;
   this.yDir = 0;
-}
+};
 
 GameObjectPlayer.ANIMATION_IDLE = 0;
 GameObjectPlayer.ANIMATION_WALK = 1;
-
 
 //Set the prototype to a copy of game object
 GameObjectPlayer.prototype = Object.create(GameObject.prototype);
@@ -35,6 +35,10 @@ GameObjectPlayer.prototype = Object.create(GameObject.prototype);
 GameObjectPlayer.prototype.constructor = GameObjectPlayer;
 
 GameObjectPlayer.prototype.update = function(){
+
+  if(Input.pressed[Input.KEY_W]){
+    console.log("W is pressed!");
+  }
 
   //if networkID < 0 we can controll this guy, otherwise its controlled by the network code :D
   if(this.networkID < 0){
@@ -64,10 +68,10 @@ GameObjectPlayer.prototype.update = function(){
     this.xDir = this.x - this.xPrevious;
     this.yDir = this.y - this.yPrevious;
 
-    var length = Math.sqrt(this.xDir*this.xDir + this.yDir*this.yDir);
-    if(length > 0){
-      this.xDir /= length;
-      this.yDir /= length;
+    var l = Math.sqrt(this.xDir*this.xDir + this.yDir*this.yDir);
+    if(l > 0){
+      this.xDir /= l;
+      this.yDir /= l;
     }
 
     //save the old x and y (in case of network change)
@@ -76,7 +80,7 @@ GameObjectPlayer.prototype.update = function(){
     this.changed = false;
   }
 
-  if(this.xDir != 0 || this.yDir != 0){
+  if(this.xDir !== 0 || this.yDir !== 0){
     this.currentAnimation = GameObjectPlayer.ANIMATION_WALK;
   }else{
     this.currentAnimation = GameObjectPlayer.ANIMATION_IDLE;
@@ -85,7 +89,7 @@ GameObjectPlayer.prototype.update = function(){
   this.animations[this.currentAnimation].update(0.1);
 
   this.depth = this.y + 32;
-  
+
   this.x += this.xDir;
   this.y += this.yDir;
 
@@ -93,10 +97,10 @@ GameObjectPlayer.prototype.update = function(){
   if(Engine.network.connected && this.networkID < 0){
     Engine.network.sendUpdate(this);
   }
-}
+};
 
 GameObject.prototype.draw = function(graphics){
   //draw the game object
   graphics.setColor(Graphics.WHITE);
   graphics.drawSprite(this.animations[this.currentAnimation].getCurrentSprite(), this.x, this.y);
-}
+};
