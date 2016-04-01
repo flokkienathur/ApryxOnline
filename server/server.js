@@ -7,7 +7,7 @@ var currentID = 0;
 var tickrate = 15; //20 ticks per second
 
 //list of players
-var players = new Array();
+var players = [];
 
 //give it a remove function
 players.remove = function(player){
@@ -15,7 +15,7 @@ players.remove = function(player){
   if(index >= 0){
     players.splice(index, 1);
   }
-}
+};
 
 
 function broadcast(message, exclude){
@@ -120,6 +120,6 @@ wss.on('connection', function(ws){
       //Send the disconnect message
       sendDestroy(player);
     }
-  })
+  });
 
 });

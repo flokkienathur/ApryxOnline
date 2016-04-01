@@ -10,18 +10,19 @@ var Network = function(){
   this.socket.onopen = function(event){
     net.login("username1", "password1");
     net.connected = true;
-  }
+  };
 
   this.socket.onclose = function(event){
     net.connected = false;
-  }
+  };
 
   this.socket.onmessage = function(message){
     var m = JSON.parse(message.data);
+    var g;
 
     //create object
     if(m.type == 'create'){
-      var g = new GameObjectPlayer();
+      g = new GameObjectPlayer();
       g.name = m.name;
       g.networkID = m.id;
       g.x = m.x;
@@ -31,19 +32,19 @@ var Network = function(){
 
     //destroy object
     else if(m.type == 'destroy'){
-      var g = Engine.game.level.getGameObjectByNetworkID(m.id);
+      g = Engine.game.level.getGameObjectByNetworkID(m.id);
       Engine.game.level.removeGameObject(g);
     }
 
     //update object
     else if(m.type == 'update'){
-      var g = Engine.game.level.getGameObjectByNetworkID(m.id);
+      g = Engine.game.level.getGameObjectByNetworkID(m.id);
       g.x = m.x;
       g.y = m.y;
       g.changed = true;
     }
-  }
-}
+  };
+};
 
 Network.prototype.login = function (username, password) {
   //login message
@@ -59,4 +60,4 @@ Network.prototype.sendUpdate = function(gameObject){
   };
 
   this.socket.send(JSON.stringify(message));
-}
+};

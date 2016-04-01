@@ -37,3 +37,8 @@ window.onkeyup = function(e){
   Input.keys[key] = false;
   Input.released[key] = true;
 };
+
+window.oncontextmenu = function(e){
+  //TODO
+  return false;
+};
