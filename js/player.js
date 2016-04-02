@@ -8,14 +8,9 @@ var GameObjectPlayer = function(){
 
   this.animations = [
 
-    //Idle
-    new Animation()
-    .addSprite(new Sprite("res_img_player")),
+    Resources.animations.playerIdle,
+    Resources.animations.playerWalk
 
-    //Walk
-    new Animation()
-      .addSprite(new Sprite("res_img_playerstep1"))
-      .addSprite(new Sprite("res_img_playerstep2"))
   ];
   this.name = "default_player";
 
@@ -36,24 +31,24 @@ GameObjectPlayer.prototype.constructor = GameObjectPlayer;
 
 GameObjectPlayer.prototype.update = function(){
 
-  if(Input.pressed[Input.KEY_W]){
-    console.log("W is pressed!");
+  if(Input.pressed[Input.MOUSE_RIGHT]){
+    console.log("Walk here pls!");
   }
 
   //if networkID < 0 we can controll this guy, otherwise its controlled by the network code :D
   if(this.networkID < 0){
     this.xDir = 0;
     this.yDir = 0;
-    if(Input.keys[Input.KEY_W]){
+    if(Input.down[Input.KEY_W]){
       this.yDir -= 1;
     }
-    if(Input.keys[Input.KEY_S]){
+    if(Input.down[Input.KEY_S]){
       this.yDir += 1;
     }
-    if(Input.keys[Input.KEY_A]){
+    if(Input.down[Input.KEY_A]){
       this.xDir -= 1;
     }
-    if(Input.keys[Input.KEY_D]){
+    if(Input.down[Input.KEY_D]){
       this.xDir += 1;
     }
 
