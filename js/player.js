@@ -36,10 +36,7 @@ GameObjectPlayer.prototype.update = function(){
 
   //if networkID < 0 we can controll this guy, otherwise its controlled by the network code :D
   if(this.networkID < 0){
-    if(Input.down[Input.KEY_SPACE]){
-      this.level.viewX = this.x - this.level.viewWidth / 2;
-      this.level.viewY = this.y - this.level.viewHeight / 2;
-    }
+    this.moveCamera(4);
 
     if(Input.pressed[Input.MOUSE_RIGHT]){
       this.targetX = this.level.mouseX;
@@ -68,6 +65,60 @@ GameObjectPlayer.prototype.update = function(){
   }
 };
 
+GameObjectPlayer.prototype.moveCamera = function(speed){
+  //Move with the player
+  if(Input.down[Input.KEY_SPACE]){
+    this.level.viewX = this.x - this.level.viewWidth / 2;
+    this.level.viewY = this.y - this.level.viewHeight / 2;
+  }
+
+  //Move with the mouse X stuff
+  else{
+    //prevent shittonnes of lookups
+    var mx = this.level.mouseX, my = this.level.mouseY, vx = this.level.viewX, vy = this.level.viewY, vw = this.level.viewWidth, vh = this.level.viewHeight;
+
+    //if the mouse is to the left of the screen
+    if(mx - vx < 16){
+      vx -= speed;
+    }
+    //if the mouse is to the right of the screen
+    if(mx - vx > vw - 16){
+      vx += speed;
+    }
+
+    //if the mouse is above
+    if(my - vy < 16){
+      vy -= speed;
+    }
+
+    //if the mouse is below the screen
+    if(my - vy > vh - 16){
+      vy += speed;
+    }
+
+
+    //lock
+    if(vx < 0){
+      vx = 0;
+    }
+    if(vy < 0){
+      vy = 0;
+    }
+    //TODO add level size
+    if(vx + vw > 640){
+      vx = 640 - vw;
+    }
+    if(vy + vh > 360){
+      vy = 360 - vh;
+    }
+
+    this.level.viewX = vx;
+    this.level.viewY = vy;
+
+
+  }
+};
+
 GameObjectPlayer.prototype.moveToTarget = function(speed){
 
   var xDir = this.targetX - this.x;
@@ -88,6 +139,10 @@ GameObjectPlayer.prototype.moveToTarget = function(speed){
 GameObjectPlayer.prototype.draw = function(graphics){
   //call super
   GameObject.prototype.draw.call(this, graphics);
+
+  if(this.networkID < 0){
+    graphics.drawSprite(Resources.sprites.target, this.targetX, this.targetY);
+  }
 
   var sprite = this.animations[this.currentAnimation].getCurrentSprite();
 

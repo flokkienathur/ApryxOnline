@@ -55,7 +55,9 @@ window.oncontextmenu = function(e){
 
 Input.init = function(element){
 
-  element.onmousedown = function(e){
+  //This was element based, now its window based (so if the cursor is outside the screen, we can still capture stuff)
+
+  window.onmousedown = function(e){
     var mb = e.which;
     var rect = element.getBoundingClientRect();
 
@@ -67,7 +69,7 @@ Input.init = function(element){
     return false;
   };
 
-  element.onmouseup = function(e){
+  window.onmouseup = function(e){
     var mb = e.which;
     var rect = element.getBoundingClientRect();
 
@@ -79,7 +81,7 @@ Input.init = function(element){
     //Consume the event
     return false;
   };
-  element.onmousemove = function(e){
+  window.onmousemove = function(e){
     Input.setMouse(e, element);
   };
 };

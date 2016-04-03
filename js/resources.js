@@ -7,7 +7,7 @@ Resources.init = function(){
     playerStep1 : new Sprite("res_img_playerstep1").setOffset(16,32),
     playerStep2 : new Sprite("res_img_playerstep2").setOffset(16,32),
 
-    target : new Sprite("res_img_target").setOffset(2,2)
+    target : new Sprite("res_img_target").setOffset(2.5,2.5)
   };
 
   Resources. animations = {
