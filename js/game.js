@@ -82,6 +82,9 @@ var Level = function(){
   this.viewWidth = 320;
   this.viewHeight = 180;
 
+  this.width = 480;
+  this.height = 360;
+
   this.mouseX = 0;
   this.mouseY = 0;
 
@@ -128,7 +131,7 @@ Level.prototype.draw = function(){
 
   //Reset transform
   graphics.context.setTransform(1, 0, 0, 1, 0, 0);
-  
+
   //Clear the screen
   graphics.clear();
 

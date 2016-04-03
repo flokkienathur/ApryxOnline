@@ -66,16 +66,18 @@ GameObjectPlayer.prototype.update = function(){
 };
 
 GameObjectPlayer.prototype.moveCamera = function(speed){
+
+  //prevent shittonnes of lookups
+  var mx = this.level.mouseX, my = this.level.mouseY, vx = this.level.viewX, vy = this.level.viewY, vw = this.level.viewWidth, vh = this.level.viewHeight;
+
   //Move with the player
   if(Input.down[Input.KEY_SPACE]){
-    this.level.viewX = this.x - this.level.viewWidth / 2;
-    this.level.viewY = this.y - this.level.viewHeight / 2;
+    vx = this.x - this.level.viewWidth / 2;
+    vy = this.y - this.level.viewHeight / 2;
   }
 
   //Move with the mouse X stuff
   else{
-    //prevent shittonnes of lookups
-    var mx = this.level.mouseX, my = this.level.mouseY, vx = this.level.viewX, vy = this.level.viewY, vw = this.level.viewWidth, vh = this.level.viewHeight;
 
     //if the mouse is to the left of the screen
     if(mx - vx < 16){
@@ -96,27 +98,25 @@ GameObjectPlayer.prototype.moveCamera = function(speed){
       vy += speed;
     }
 
-
-    //lock
-    if(vx < 0){
-      vx = 0;
-    }
-    if(vy < 0){
-      vy = 0;
-    }
-    //TODO add level size
-    if(vx + vw > 640){
-      vx = 640 - vw;
-    }
-    if(vy + vh > 360){
-      vy = 360 - vh;
-    }
-
-    this.level.viewX = vx;
-    this.level.viewY = vy;
-
-
   }
+
+  //lock
+  if(vx < 0){
+    vx = 0;
+  }
+  if(vy < 0){
+    vy = 0;
+  }
+  //TODO add level size
+  if(vx + vw > this.level.width){
+    vx = this.level.width - vw;
+  }
+  if(vy + vh > this.level.height){
+    vy = this.level.height - vh;
+  }
+
+  this.level.viewX = vx;
+  this.level.viewY = vy;
 };
 
 GameObjectPlayer.prototype.moveToTarget = function(speed){
