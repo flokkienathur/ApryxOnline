@@ -39,6 +39,7 @@ var GameObject = function(x, y, width, height){
   this.width = width;
   this.height = height;
   this.depth = 0;
+  this.level = null;
 
   this.changed = false;
   this.networkID = -1;
@@ -78,6 +79,11 @@ var Level = function(){
 
   this.viewX = 0;
   this.viewY = 0;
+  this.viewWidth = 320;
+  this.viewHeight = 180;
+
+  this.mouseX = 0;
+  this.mouseY = 0;
 
   this.tileset = new Sprite("res_img_tileset");
 };
@@ -87,6 +93,7 @@ var Level = function(){
  * @param {GameObjectPlayer} object The game object to add
  */
 Level.prototype.addGameObject = function(object){
+  object.level = this;
   this.gameObjects.push(object);
 };
 
@@ -95,6 +102,7 @@ Level.prototype.addGameObject = function(object){
  * @param {GameObjectPlayer} object The game object to remove
  */
 Level.prototype.removeGameObject = function(object){
+  object.level = null;
   this.gameObjects.remove(object);
 };
 
@@ -115,6 +123,12 @@ Level.prototype.getGameObjectByNetworkID = function(id){
  * Draw the level, with all its game objects
  */
 Level.prototype.draw = function(){
+
+  var graphics = Engine.graphics;
+
+  graphics.context.setTransform(graphics.canvas.width / this.viewWidth, 0, 0, graphics.canvas.height / this.viewHeight, 0, 0);
+  graphics.context.translate(-this.viewX, -this.viewY);
+
   for(var x = 0; x < 10; x++){
     for(var y = 0; y < 10; y++){
       Engine.graphics.drawSprite(this.tileset, x<<5, y<<5);

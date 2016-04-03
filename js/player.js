@@ -1,10 +1,13 @@
 //Player constructor!
 var GameObjectPlayer = function(){
   //Call super class
-  GameObject.call(this, 0, 0, 32, 32);
+  GameObject.call(this, 32, 32, 32, 32);
 
   this.currentAnimation = 0;
   this.currentSprite = 0;
+
+  this.targetX = 0;
+  this.targetY = 0;
 
   this.animations = [
 
@@ -32,7 +35,8 @@ GameObjectPlayer.prototype.constructor = GameObjectPlayer;
 GameObjectPlayer.prototype.update = function(){
 
   if(Input.pressed[Input.MOUSE_RIGHT]){
-    console.log("Walk here pls!");
+    this.level.viewX = this.x;
+    this.level.viewY = this.y;
   }
 
   //if networkID < 0 we can controll this guy, otherwise its controlled by the network code :D
@@ -94,8 +98,17 @@ GameObjectPlayer.prototype.update = function(){
   }
 };
 
-GameObject.prototype.draw = function(graphics){
+GameObjectPlayer.prototype.draw = function(graphics){
+  //call super
+  GameObject.prototype.draw.call(this, graphics);
+
+  var sprite = this.animations[this.currentAnimation].getCurrentSprite();
+
   //draw the game object
   graphics.setColor(Graphics.WHITE);
-  graphics.drawSprite(this.animations[this.currentAnimation].getCurrentSprite(), this.x, this.y);
+  graphics.drawSprite(sprite, this.x + sprite.xOffset, this.y + sprite.yOffset);
+};
+
+GameObjectPlayer.prototype.moveToTarget = function(speed){
+
 };

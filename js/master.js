@@ -13,8 +13,8 @@ window.onload = function(){
   Engine.graphics = new Graphics(canvas);
 
   //Setting the viewport
-  Engine.graphics.width = 320;
-  Engine.graphics.height = Engine.graphics.width * 9 / 16;
+  //Engine.graphics.width = 320;
+  //Engine.graphics.height = 180;
 
   Engine.game = new Game();
   Engine.network = new Network();

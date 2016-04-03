@@ -24,7 +24,7 @@ Graphics.prototype.clear = function(){
   this.context.clearRect(0,0,this.canvas.width, this.canvas.height);
 
   //I don't know how scaling works D:
-  this.context.setTransform(this.canvas.width / this.width, 0, 0, this.canvas.height / this.height, 0, 0);
+  this.context.setTransform(1, 0, 0, 1, 0, 0);
 };
 
 /**
