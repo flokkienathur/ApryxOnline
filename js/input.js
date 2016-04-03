@@ -21,6 +21,8 @@ Input.KEY_S = 83;
 Input.KEY_A = 65;
 Input.KEY_D = 68;
 
+Input.KEY_SPACE = 32;
+
 Input.MOUSE_LEFT = "mouse1";
 Input.MOUSE_RIGHT = "mouse3";
 
@@ -55,24 +57,38 @@ Input.init = function(element){
 
   element.onmousedown = function(e){
     var mb = e.which;
+    var rect = element.getBoundingClientRect();
 
     Input.down["mouse"+mb] = true;
     Input.pressed["mouse"+mb] = true;
 
+    Input.setMouse(e, element);
     //Consume the event
     return false;
   };
 
   element.onmouseup = function(e){
     var mb = e.which;
+    var rect = element.getBoundingClientRect();
 
     Input.down["mouse"+mb] = false;
     Input.released["mouse"+mb] = true;
+
+    Input.setMouse(e, element);
 
     //Consume the event
     return false;
   };
   element.onmousemove = function(e){
-
+    Input.setMouse(e, element);
   };
+};
+
+Input.setMouse = function(e, element) {
+  var offsetX = 0, offsetY = 0;
+
+  var rect = element.getBoundingClientRect();
+
+  Input.mouseX = (e.pageX - rect.left) / rect.width;
+  Input.mouseY = (e.pageY - rect.top) / rect.height;
 };

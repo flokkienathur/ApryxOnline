@@ -34,55 +34,25 @@ GameObjectPlayer.prototype.constructor = GameObjectPlayer;
 
 GameObjectPlayer.prototype.update = function(){
 
-  if(Input.pressed[Input.MOUSE_RIGHT]){
-    this.level.viewX = this.x;
-    this.level.viewY = this.y;
-  }
-
   //if networkID < 0 we can controll this guy, otherwise its controlled by the network code :D
   if(this.networkID < 0){
-    this.xDir = 0;
-    this.yDir = 0;
-    if(Input.down[Input.KEY_W]){
-      this.yDir -= 1;
-    }
-    if(Input.down[Input.KEY_S]){
-      this.yDir += 1;
-    }
-    if(Input.down[Input.KEY_A]){
-      this.xDir -= 1;
-    }
-    if(Input.down[Input.KEY_D]){
-      this.xDir += 1;
+    if(Input.down[Input.KEY_SPACE]){
+      this.level.viewX = this.x - this.level.viewWidth / 2;
+      this.level.viewY = this.y - this.level.viewHeight / 2;
     }
 
-    var length = Math.sqrt(this.xDir*this.xDir + this.yDir*this.yDir);
-    if(length > 0){
-      this.xDir /= length;
-      this.yDir /= length;
+    if(Input.pressed[Input.MOUSE_RIGHT]){
+      this.targetX = this.level.mouseX;
+      this.targetY = this.level.mouseY;
     }
+
+    this.moveToTarget(1);
   }
   //if its a network object
   else if(this.changed){
-    this.xDir = this.x - this.xPrevious;
-    this.yDir = this.y - this.yPrevious;
+    //Do nothing currently
 
-    var l = Math.sqrt(this.xDir*this.xDir + this.yDir*this.yDir);
-    if(l > 0){
-      this.xDir /= l;
-      this.yDir /= l;
-    }
-
-    //save the old x and y (in case of network change)
-    this.xPrevious = this.x;
-    this.yPrevious = this.y;
     this.changed = false;
-  }
-
-  if(this.xDir !== 0 || this.yDir !== 0){
-    this.currentAnimation = GameObjectPlayer.ANIMATION_WALK;
-  }else{
-    this.currentAnimation = GameObjectPlayer.ANIMATION_IDLE;
   }
 
   this.animations[this.currentAnimation].update(0.1);
@@ -92,10 +62,27 @@ GameObjectPlayer.prototype.update = function(){
   this.x += this.xDir;
   this.y += this.yDir;
 
-
+  //Send the update
   if(Engine.network.connected && this.networkID < 0){
     Engine.network.sendUpdate(this);
   }
+};
+
+GameObjectPlayer.prototype.moveToTarget = function(speed){
+
+  var xDir = this.targetX - this.x;
+  var yDir = this.targetY - this.y;
+
+  var length = Math.sqrt(xDir * xDir + yDir * yDir);
+
+  if(length > 1){
+    xDir /= length;
+    yDir /= length;
+
+    this.x += xDir * speed;
+    this.y += yDir * speed;
+  }
+
 };
 
 GameObjectPlayer.prototype.draw = function(graphics){
@@ -106,9 +93,5 @@ GameObjectPlayer.prototype.draw = function(graphics){
 
   //draw the game object
   graphics.setColor(Graphics.WHITE);
-  graphics.drawSprite(sprite, this.x + sprite.xOffset, this.y + sprite.yOffset);
-};
-
-GameObjectPlayer.prototype.moveToTarget = function(speed){
-
+  graphics.drawSprite(sprite, this.x, this.y);
 };

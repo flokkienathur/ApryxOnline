@@ -10,7 +10,7 @@ var Game = function(){
  */
 Game.prototype.draw = function(){
   if(this.level !== null){
-    Engine.graphics.clear();
+    //Engine.graphics.clear();
     this.level.draw();
   }
 };
@@ -126,15 +126,25 @@ Level.prototype.draw = function(){
 
   var graphics = Engine.graphics;
 
+  //Reset transform
+  graphics.context.setTransform(1, 0, 0, 1, 0, 0);
+  
+  //Clear the screen
+  graphics.clear();
+
+  //Set the right transformation
   graphics.context.setTransform(graphics.canvas.width / this.viewWidth, 0, 0, graphics.canvas.height / this.viewHeight, 0, 0);
   graphics.context.translate(-this.viewX, -this.viewY);
 
+
+  //Draw the level
   for(var x = 0; x < 10; x++){
     for(var y = 0; y < 10; y++){
       Engine.graphics.drawSprite(this.tileset, x<<5, y<<5);
     }
   }
 
+  //Draw the game objects
   for(var i = 0; i < this.gameObjects.length; i++){
     this.gameObjects[i].draw(Engine.graphics);
   }
@@ -144,6 +154,11 @@ Level.prototype.draw = function(){
  * Update the level, including all its gameobjects. The update also sorts the game objects by their depth
  */
 Level.prototype.update = function(){
+  //Set the right mouseX and mouseY per world (Input does not handle this)
+
+  this.mouseX = Input.mouseX * this.viewWidth + this.viewX;
+  this.mouseY = Input.mouseY * this.viewHeight + this.viewY;
+
   //update all game objects
   for(var i = 0; i < this.gameObjects.length; i++){
     this.gameObjects[i].update();
